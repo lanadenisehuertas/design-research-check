@@ -114,6 +114,20 @@ export function checkRun({ dir, mode, depth = "deep", noRender = false }) {
     if (ver && ledger) errors.push(...checkVerificationClaims({ ceiling: ledger.evidence_ceiling, text: ver }).errors.map((e) => `verification: ${e}`));
     if (ver && !/\b(pass|partial|fail|not tested)\b/i.test(ver)) errors.push("verification.md has no pass/partial/fail/not tested results");
     if (!noRender && images(dir, "final").length === 0) errors.push("final/ has no screenshots of the implemented result");
+    // AI-default tell scan: advisory, because a tell can be a deliberate brand choice that verification.md explains.
+    const slopPath = (p) => join(dir, p);
+    if (!existsSync(slopPath("baseline/slop.json")) || !existsSync(slopPath("final/slop.json"))) {
+      warnings.push("no detect-slop scan in baseline/slop.json and final/slop.json");
+    } else {
+      try {
+        const b = JSON.parse(readFileSync(slopPath("baseline/slop.json"), "utf8"));
+        const f = JSON.parse(readFileSync(slopPath("final/slop.json"), "utf8"));
+        if (b.weighted > 0 && f.weighted >= b.weighted) warnings.push(`AI-tell score did not drop (${b.weighted} before, ${f.weighted} after); explain each remaining tell in verification.md`);
+      } catch {
+        warnings.push("baseline/slop.json or final/slop.json is not valid JSON");
+      }
+    }
+    if (!noRender && !existsSync(slopPath("compare.html"))) warnings.push("no compare.html (run build-compare.mjs)");
   }
 
   return { errors, warnings };

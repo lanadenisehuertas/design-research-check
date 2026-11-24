@@ -50,13 +50,14 @@ If earlier runs exist in `<project-root>/design-research-check/`, read their `br
 1. Infer the brief from the repo and conversation: product, audience, main task, scope (default: the main page plus one representative inner page), brand assets, constraints, what must be preserved (forms, links, analytics, logic). Ask nothing unless a missing fact blocks the work. At most three questions, in one message.
 2. Fill the **Assumptions** block. Mark each item `assumed` or `stated`.
 3. Turn the request into **three testable aesthetic hypotheses**, each as concrete visual claims (type, grid, palette, imagery, density, motion), not adjectives.
-4. Baseline (redesign and review; research too if a UI exists): screenshot the main routes at 1440 and 390 into `baseline/`, then look at the images. List concrete problems as `P1`, `P2`... with what, where and why each misses the brief. Name the generic defaults present (centered gradient hero, identical card row, single sans, emoji icons, filler copy). Note uncommitted changes in the project so they survive.
+4. Baseline (redesign and review; research too if a UI exists): screenshot the main routes at 1440 and 390 into `baseline/`, then look at the images. Run `node "$SKILL_DIR/scripts/detect-slop.mjs" <project source folders> --out "$RUN/baseline/slop.json"`. It lists AI-default tells with file and line: purple gradients, gradient text, emoji icons, stock copy, glass panels, glows, three equal cards, pill-shaped everything, default-sans-only type and a centered hero. List concrete problems as `P1`, `P2`..., with what, where and why each misses the brief. Use the scan and the screenshots, not adjectives. Note uncommitted changes in the project so they survive.
 
 ## 4. Research -> `queries.md`, `refs/`, `references.json`
 
 1. Write the planned query matrix to `queries.md` first. Combine product type, each hypothesis's mood plus synonyms, page/flow/component, typography, composition, imagery, and adjacent fields (packaging, editorial, signage). Add functional queries (navigation, product listing, checkout or signup, mobile). Never search "beautiful modern website".
 2. Run `node "$SKILL_DIR/scripts/scan-outbound.mjs" "$RUN/queries.md" <brand name> <product names> <any private codenames>`. It must exit 0. Queries describe the style and the field, never the client.
-3. Search **each** of Pinterest, Behance, Dribbble and Cosmos, plus user links first, and Wall of Portfolios and Collect UI when useful. Use site-scoped searches such as `site:behance.net/gallery <terms>`, `site:dribbble.com/shots <terms>`, `site:pinterest.com/pin <terms>`, `site:cosmos.so <terms>`. Also look for real live sites in the same field. Log every query and its result count.
+3. **User sources first.** If the user gave a Pinterest board, Cosmos collection, Behance or Dribbble links, a folder of images (for example `inspiration/`) or screenshots, use them before searching. They are the strongest signal of taste. Their own board may need their login. Use a browser tool that runs in the user's own signed-in browser if the host has one (for example Claude in Chrome); otherwise ask once for screenshots or an image export, and continue meanwhile. Mark these `origin: user_provided`.
+   Then search **each** of Pinterest, Behance, Dribbble and Cosmos, and Wall of Portfolios and Collect UI when useful. Use site-scoped searches such as `site:behance.net/gallery <terms>`, `site:dribbble.com/shots <terms>`, `site:pinterest.com/pin <terms>`, `site:cosmos.so <terms>`. Also look for real live sites in the same field. Log every query and its result count.
 4. Blocked or login-walled? Record it in `queries.md` and the ledger as `blocked`, try one allowed alternative (the creator's own site, the project page's served image), and move on. Never bypass logins, paywalls or bot checks: no faked browser user-agents, no retrying a challenge page, no third-party proxies or scrapers.
 5. **Capture and look.** For each gallery candidate, in this order:
    1. Open the work's page with the host's own web-fetch tool (for example WebFetch), not `curl` or a script. Ask it for the page's `og:image` and the full-size image URLs. Gallery images are served from public CDNs: `cdn.dribbble.com`, `mir-s3-cdn-cf.behance.net`, `i.pinimg.com`, and Cosmos's image CDN.
@@ -96,14 +97,17 @@ Build two or three self-contained HTML/CSS proposals in `proposals/` using the u
 
 1. Apply the spec to the existing stack. Make structural changes: layout, type system, hierarchy and content order are in scope. A recolor is not a redesign. Preserve forms, links, analytics, business logic and unrelated edits. Never invent testimonials, metrics or claims. Mark placeholders. Details: `references/implement.md`.
 2. Fill `decision-map.md`: component, decision, spec ID, reference IDs, and the baseline problem `P#` it replaces.
-3. Run the project's checks. Screenshot the result at the baseline routes and widths plus 768 into `final/`, look at each image, and compare with the chosen proposal and the baseline. Test the key task (for example submit the form). Record `pass`, `partial`, `fail` or `not tested` with evidence in `verification.md`. Fix material failures. At most two correction cycles. Details: `references/verify.md`.
+3. Run the project's checks. Screenshot the result at the baseline routes and widths plus 768 into `final/`, look at each image, and compare with the chosen proposal and the baseline. Test the key task (for example submit the form).
+   Run `detect-slop.mjs <same folders> --out "$RUN/final/slop.json" --compare "$RUN/baseline/slop.json"`. Every remaining or new tell needs a reason in `verification.md` (for example "the brand color is violet"), or a fix.
+   Then run `node "$SKILL_DIR/scripts/build-compare.mjs" "$RUN"` to write `compare.html`, the before/after page.
+   Record `pass`, `partial`, `fail` or `not tested` with evidence in `verification.md`. Fix material failures. At most two correction cycles. Details: `references/verify.md`.
 4. Run `check-claims.mjs --ceiling <X> --verification "$RUN/verification.md"`. If you could not render, do not write "visually verified".
 
 ## 10. Completion gate
 
 Run `node "$SKILL_DIR/scripts/check-run.mjs" "$RUN" --mode <research|review|redesign> --depth <depth>` (add `--no-render` only if rendering was impossible, and say so). It checks the run folder for every deliverable. **If it fails, go back and do the missing work.** Do not end the run with a failing gate, unless you report exactly which check failed and why it could not be met.
 
-Then give the final response: assumptions and how to redirect in one sentence; what missed the brief and what changed; the chosen direction and why; paths to the board, proposal renders and before/after screenshots; the most influential sources; coverage numbers from the ledger; checks run; limitations. Keep it short. The detail lives in `RUN`. Format: `references/final-response.md`.
+Then give the final response: assumptions and how to redirect in one sentence; what missed the brief and what changed; the chosen direction and why; paths to the board, proposal renders and `compare.html`; the AI-tell score before and after; the most influential sources; coverage numbers from the ledger; checks run; limitations. Keep it short. The detail lives in `RUN`. Format: `references/final-response.md`.
 
 ## Never
 
@@ -400,12 +404,13 @@ Never run this phase in `research` or `review` mode, or without authorization.
 1. Run the project checks.
 2. Render the real changed interface at the baseline routes and viewports, plus representative intermediate widths (for example 768 and 1024). Save to `final/`.
 3. Inspect: alignment with the selected direction and the brief; hierarchy, typography, spacing, imagery, brand consistency; overflow, clipping, wrapping, contrast, image cropping; navigation and key user tasks; keyboard access and states; console errors, broken assets, regressions.
-4. Compare with the approved proposal and the extracted principles. Pixel similarity to unrelated branded sites is never the success metric.
-5. **Copy-guard.** Confirm no other brand's logo, wordmark, proprietary illustration, photography or whole-page layout was reproduced.
-6. Record `pass`, `partial`, `fail` or `not tested` per criterion in `verification.md`, with concrete evidence. A self-assigned aesthetic score is not usability validation.
-7. Fix material failures and render again. After **two** focused correction cycles, stop and report what is unresolved and what evidence or decision would resolve it.
-8. Run `node "$SKILL_DIR/scripts/check-claims.mjs" --ceiling <A|B|C> --render <true|false> --verification "$RUN/verification.md" --spec "$RUN/design-spec.md" --ledger "$RUN/references.json"`. Fix any over-claim it reports.
-9. Run the completion gate: `node "$SKILL_DIR/scripts/check-run.mjs" "$RUN" --mode redesign --depth <depth>`.
+4. Run `detect-slop.mjs <source folders> --out "$RUN/final/slop.json" --compare "$RUN/baseline/slop.json"`. For each tell still present or newly introduced, either fix it or give the reason in `verification.md` (a tell can be a real brand choice). Then run `build-compare.mjs "$RUN"` to write the before/after page `compare.html`.
+5. Compare with the approved proposal and the extracted principles. Pixel similarity to unrelated branded sites is never the success metric.
+6. **Copy-guard.** Confirm no other brand's logo, wordmark, proprietary illustration, photography or whole-page layout was reproduced.
+7. Record `pass`, `partial`, `fail` or `not tested` per criterion in `verification.md`, with concrete evidence. A self-assigned aesthetic score is not usability validation.
+8. Fix material failures and render again. After **two** focused correction cycles, stop and report what is unresolved and what evidence or decision would resolve it.
+9. Run `node "$SKILL_DIR/scripts/check-claims.mjs" --ceiling <A|B|C> --render <true|false> --verification "$RUN/verification.md" --spec "$RUN/design-spec.md" --ledger "$RUN/references.json"`. Fix any over-claim it reports.
+10. Run the completion gate: `node "$SKILL_DIR/scripts/check-run.mjs" "$RUN" --mode redesign --depth <depth>`.
 
 Wording by ceiling: A may say "visually verified" if the result was rendered and looked at. B may say "verified from the supplied screenshots", not "verified in the live interface". C may not claim visual verification; say what could not be checked.
 Include rows for: baseline generic defaults replaced (list `P#`), and each direction's named elements visible in the result.
