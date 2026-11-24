@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Evidence-led design research and redesign: research real references on Pinterest, Behance, Dribbble and Cosmos, show rendered proposals, implement the chosen direction, verify the render.",
   "scripts": {
-    "test": "node --test \"tests/**/*.test.mjs\""
+    "test": "node tests/run-all.mjs"
   },
   "engines": {
     "node": ">=20"
