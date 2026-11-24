@@ -4,11 +4,15 @@ An agent skill for the moment an AI-generated site looks generic, or keeps drift
 
 It works from a minimal prompt such as "make it look premium". It infers the brief from your project, lists its assumptions, and lets the proposals stand in for a questionnaire.
 
+Give it your own taste when you have it: a Pinterest board, a Cosmos collection, Behance or Dribbble links, or a folder of screenshots. It uses those before searching. A private board needs your own signed-in browser (for example Claude in Chrome) or a screenshot export.
+
 **Central rule:** find evidence, inspect it, explain the useful pattern, adapt it to your brand, render it, verify it.
 
 ## What you get
 
 A run folder, `design-research-check/<run-id>/`, with the brief, baseline, queries, a source ledger (`references.json`), a reference board, synthesis, a design spec where every decision cites inspected references, proposal previews, a decision map and a verification report.
+
+For a redesign it also writes `compare.html`: baseline and final screenshots side by side, plus an AI-default tell scan before and after. The scan lists purple gradients, gradient text, emoji icons, stock copy, glass panels, glows, three equal cards, pill-shaped everything, default-sans-only type and a centered hero, each with file and line. On the test site the scan scored 14 before and 0–3 on the research-led proposals.
 
 ## Modes
 
@@ -40,7 +44,7 @@ If you have other design skills installed (for example a "taste" or frontend-des
 
 ## Helper scripts
 
-Node 20+, no dependencies, in `skills/design-research-check/scripts/`: `detect-capabilities`, `new-run`, `save-image` (download a reference image to inspect), `screenshot` (Playwright if installed, otherwise the system Chrome or Edge), `merge-shards`, `validate-ledger`, `check-claims`, `scan-outbound`, `build-board`, `check-run` (the completion gate) and `build-standalone`.
+Node 20+, no dependencies, in `skills/design-research-check/scripts/`: `detect-capabilities`, `new-run`, `save-image` (download a reference image to inspect), `screenshot` (Playwright if installed, otherwise the system Chrome or Edge), `merge-shards`, `validate-ledger`, `check-claims`, `scan-outbound`, `build-board`, `detect-slop` (AI-default tells, with a before/after compare), `build-compare` (the before/after page), `check-run` (the completion gate) and `build-standalone`. You can run `detect-slop` on any project on its own: `node skills/design-research-check/scripts/detect-slop.mjs src/`.
 
 ## Develop
 

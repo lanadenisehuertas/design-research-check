@@ -1,8 +1,28 @@
 {
   "name": "design-research-check",
+  "displayName": "Design Research Check",
   "version": "0.1.0-beta.1",
-  "description": "Evidence-led design research and redesign: research real references, show rendered proposals, implement the chosen direction, verify the render.",
-  "author": { "name": "Lana" },
-  "keywords": ["design", "research", "redesign", "references", "ui"],
-  "license": "MIT"
+  "description": "Evidence-led design research and redesign: research real references on Pinterest, Behance, Dribbble and Cosmos, show rendered proposals, implement the chosen direction, verify the render.",
+  "author": {
+    "name": "Lana",
+    "url": "https://github.com/lanadenisehuertas"
+  },
+  "homepage": "https://github.com/lanadenisehuertas/design-research-check#readme",
+  "repository": "https://github.com/lanadenisehuertas/design-research-check",
+  "license": "MIT",
+  "keywords": [
+    "design",
+    "research",
+    "redesign",
+    "references",
+    "ui",
+    "ai-slop",
+    "pinterest",
+    "behance",
+    "dribbble",
+    "cosmos"
+  ],
+  "icon": "./assets/icon.png",
+  "documentationUrl": "https://github.com/lanadenisehuertas/design-research-check#readme",
+  "supportUrl": "https://github.com/lanadenisehuertas/design-research-check/issues"
 }

@@ -6,7 +6,7 @@ Date: 2026-11-24. This is a beta. Each host is tracked by three separate claims:
 
 | Host | Files | Format validated | Tested in host |
 |---|---|---|---|
-| Claude Code 2.1.331 | `.claude-plugin/`, `skills/design-research-check/` | yes: `claude plugin validate .` passes (only warning: no icon) | yes, headless (`claude -p --plugin-dir .`). Five live runs, results below |
+| Claude Code 2.1.331 | `.claude-plugin/`, `skills/design-research-check/`, `assets/icon.png` | yes: `claude plugin validate --strict .` passes with no findings | yes, headless (`claude -p --plugin-dir .`). Five live runs, results below |
 | Codex CLI 0.169.0 | `plugin.json`, `.agents/plugins/marketplace.json`, `skills/.../agents/openai.yaml`, `adapters/codex/AGENTS-snippet.md` | yes: `codex plugin marketplace add <local path>` and `codex plugin add design-research-check@design-research-check-marketplace` both succeeded | install only. No Codex agent run |
 | Cursor | `.cursor-plugin/`, `rules/design-research-check.mdc` | JSON parses. Not validated by Cursor | no. Cursor was not installed on the test machine |
 | Other agents | `adapters/standalone/operating-prompt.md`, generated from the skill and drift-tested | n/a | no |
@@ -46,6 +46,14 @@ Earlier v0 runs failed and led to the current procedure-style SKILL.md:
 - **Cost.** A full run takes 15–30 minutes and $4–8 of usage. Two runs in a row can exhaust a 5-hour plan limit.
 - **Routing.** A plain request such as "the site looks generic" may be routed to another installed design skill. Invoke this one by name.
 
+## AI-default tell scan
+
+`detect-slop.mjs` was run on the generic test site and on proposals from the live runs:
+- **Generic site:** weighted score 14, from 8 kinds of tell: emoji icons, stock copy, a generic call to action, a purple gradient, pill shapes, three equal cards, default-sans-only type and a centered hero.
+- **Research-led proposals:** 0, 2 and 3. The remaining tells were a three-card row and a Helvetica-style sans only.
+
+The scan reads source text, not renders. It is a list of defaults to question, not a quality score. The completion gate only warns about it.
+
 ## Bugs found by the live runs and fixed
 
 - `validate-ledger.mjs` rejected every call made without `--base`, which is how SKILL.md calls it.
@@ -70,6 +78,6 @@ Earlier v0 runs failed and led to the current procedure-style SKILL.md:
 
 ## Checks
 
-- `npm test`: 105 tests pass (Node 24.21.0). CI runs them on Node 20 and 22.
-- `claude plugin validate .`: passes.
+- `npm test`: 110 tests pass (Node 24.21.0). CI runs them on Node 20 and 22.
+- `claude plugin validate --strict .`: passes, with no findings.
 - The standalone prompt is regenerated, and a test fails if it drifts from the skill.
