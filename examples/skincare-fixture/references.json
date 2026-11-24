@@ -1,0 +1,151 @@
+{
+  "run_id": "fixture-skincare-example",
+  "fixture": true,
+  "evidence_ceiling": "A",
+  "references": [
+    {
+      "id": "R01", "platform": "behance",
+      "source_url": "https://fixture.example/behance/botanica-editorial", "original_url": "https://fixture.example/studio-a/botanica",
+      "title": "FIXTURE Botanica editorial store", "creator": "Fixture Studio A", "accessed_at": "2026-11-20",
+      "access_status": "ok", "evidence_type": "visually_inspected_image", "origin": "discovered",
+      "local_image": "refs/r01.svg",
+      "inspection_note": "FIXTURE: placeholder image stands in for a viewed case-study image. Serif display headline set large beside an offset image column.",
+      "observations": ["very large serif headline", "image column offset from text column", "cream ground"],
+      "elements": [
+        { "category": "type", "observation": "high-contrast serif display headline at very large scale", "confidence": "observed" },
+        { "category": "grid", "observation": "text and image columns deliberately offset, not centered", "confidence": "observed" },
+        { "category": "imagery", "observation": "single dominant product photograph per section", "confidence": "observed" }
+      ],
+      "relevance": "Editorial commerce composition for a botanical brand", "limitations": "Static case-study image; no interaction shown",
+      "proposed_use": "Hero composition and headline treatment", "avoid": "Its photography and its wordmark"
+    },
+    {
+      "id": "R02", "platform": "dribbble",
+      "source_url": "https://fixture.example/dribbble/product-detail", "original_url": "https://fixture.example/studio-b/product-detail",
+      "title": "FIXTURE Product detail with ingredient accordion", "creator": "Fixture Studio B", "accessed_at": "2026-11-20",
+      "access_status": "ok", "evidence_type": "visually_inspected_image", "origin": "discovered",
+      "local_image": "refs/r02.svg",
+      "inspection_note": "FIXTURE: placeholder image. Sticky purchase panel beside long-form ingredient accordion.",
+      "observations": ["sticky buy panel", "ingredient accordion", "calm borders"],
+      "elements": [
+        { "category": "component", "observation": "sticky buy panel with a single primary action", "confidence": "observed" },
+        { "category": "ia", "observation": "ingredients and usage as an accordion under the buy panel", "confidence": "observed" },
+        { "category": "motion", "observation": "accordion likely animates open", "confidence": "inferred" }
+      ],
+      "relevance": "Product detail flow", "limitations": "Concept shot; behavior inferred",
+      "proposed_use": "Product detail structure", "avoid": "Its iconography set"
+    },
+    {
+      "id": "R03", "platform": "cosmos",
+      "source_url": "https://fixture.example/cosmos/botanical-packaging", "original_url": "https://fixture.example/studio-c/packaging",
+      "title": "FIXTURE Botanical packaging system", "creator": "Fixture Studio C", "accessed_at": "2026-11-20",
+      "access_status": "ok", "evidence_type": "visually_inspected_image", "origin": "discovered",
+      "local_image": "refs/r03.svg",
+      "inspection_note": "FIXTURE: placeholder image. Line-drawn leaf motif repeated on olive and cream packaging.",
+      "observations": ["line-drawn leaf motif", "olive on cream", "label type small and spaced"],
+      "elements": [
+        { "category": "motif", "observation": "single-weight line-drawn botanical motif used sparingly", "confidence": "observed" },
+        { "category": "color", "observation": "olive ink on cream ground, one accent", "confidence": "observed" }
+      ],
+      "relevance": "Packaging language that can carry to the site", "limitations": "Physical packaging, not a screen",
+      "proposed_use": "Motif and color role split", "avoid": "Its illustrations"
+    },
+    {
+      "id": "R04", "platform": "pinterest",
+      "source_url": "https://fixture.example/pinterest/pin/4", "original_url": "https://fixture.example/studio-d/journal",
+      "title": "FIXTURE Warm photography journal", "creator": "Fixture Studio D", "accessed_at": "2026-11-20",
+      "access_status": "ok", "evidence_type": "visually_inspected_image", "origin": "discovered",
+      "local_image": "refs/r04.svg",
+      "inspection_note": "FIXTURE: placeholder image. Warm natural photography with large calm margins and a tiny accent.",
+      "observations": ["warm natural light photography", "large margins", "tiny accent color"],
+      "elements": [
+        { "category": "imagery", "observation": "warm natural-light photography, soft shadows, no heavy overlays", "confidence": "observed" },
+        { "category": "spacing", "observation": "generous margins, sections separated by space not rules", "confidence": "observed" }
+      ],
+      "relevance": "Mood and spacing", "limitations": "Resolved to the creator's own site from a pin",
+      "proposed_use": "Photography direction and spacing rhythm", "avoid": "Its specific photographs"
+    },
+    {
+      "id": "R05", "platform": "wallofportfolios",
+      "source_url": "https://fixture.example/wallofportfolios/e", "original_url": "https://fixture.example/studio-e/shop",
+      "title": "FIXTURE Live mobile shop", "creator": "Fixture Studio E", "accessed_at": "2026-11-20",
+      "access_status": "ok", "evidence_type": "visually_inspected_live_page", "origin": "discovered",
+      "local_image": "refs/r05.svg",
+      "inspection_note": "FIXTURE: placeholder screenshot of a live mobile page. Bottom navigation, filters reachable with one thumb.",
+      "observations": ["bottom navigation", "one-thumb filters"],
+      "elements": [
+        { "category": "component", "observation": "bottom navigation bar on mobile with four destinations", "confidence": "observed" },
+        { "category": "ia", "observation": "filters collapse into a single sheet on mobile", "confidence": "observed" }
+      ],
+      "relevance": "Mobile shopping behavior from a live interface", "limitations": "One viewport inspected",
+      "proposed_use": "Mobile navigation pattern", "avoid": "Its icon set"
+    },
+    {
+      "id": "R06", "platform": "behance",
+      "source_url": "https://fixture.example/behance/serif-specimen", "original_url": "https://fixture.example/studio-f/specimen",
+      "title": "FIXTURE Serif specimen", "creator": "Fixture Studio F", "accessed_at": "2026-11-20",
+      "access_status": "ok", "evidence_type": "visually_inspected_image", "origin": "discovered",
+      "local_image": "refs/r06.svg",
+      "inspection_note": "FIXTURE: placeholder image. High-contrast serif with tight leading at large sizes and a plain sans for small text.",
+      "observations": ["high-contrast serif", "tight leading", "plain sans for small text"],
+      "elements": [
+        { "category": "type", "observation": "serif for display, plain sans for body and labels, tight display leading", "confidence": "observed" }
+      ],
+      "relevance": "Type pairing logic", "limitations": "Font names not stated in the source; described by style only",
+      "proposed_use": "Type roles", "avoid": "Its typeface if licensed"
+    },
+    {
+      "id": "R07", "platform": "dribbble",
+      "source_url": "https://fixture.example/dribbble/asymmetric-hero", "original_url": "https://fixture.example/studio-g/hero",
+      "title": "FIXTURE Asymmetric hero grid", "creator": "Fixture Studio G", "accessed_at": "2026-11-20",
+      "access_status": "ok", "evidence_type": "visually_inspected_image", "origin": "discovered",
+      "local_image": "refs/r07.svg",
+      "inspection_note": "FIXTURE: placeholder image. A roughly 7/5 split hero with an oversized cropped image.",
+      "observations": ["roughly 7/5 split (estimate)", "oversized crop"],
+      "elements": [
+        { "category": "grid", "observation": "roughly 7/5 column split, image bleeds off the edge (ratio is an estimate)", "confidence": "observed" },
+        { "category": "spacing", "observation": "tight inside the hero, loose between sections", "confidence": "observed" }
+      ],
+      "relevance": "Hero grid and proportion", "limitations": "Ratio estimated from an image",
+      "proposed_use": "Hero proportions", "avoid": "Its exact crop"
+    },
+    {
+      "id": "R08", "platform": "collectui",
+      "source_url": "https://fixture.example/collectui/gallery", "original_url": null,
+      "title": "FIXTURE Gallery page, images did not load", "creator": "unknown", "accessed_at": "2026-11-20",
+      "access_status": "partial", "evidence_type": "text_only", "origin": "discovered",
+      "local_image": null, "inspection_note": "", "observations": [], "elements": [
+        { "category": "ia", "observation": "titles suggest a card-based gallery grid", "confidence": "inferred" }
+      ],
+      "relevance": "Possible UI examples", "limitations": "Text only; no design was seen",
+      "proposed_use": "Lead only", "avoid": "Do not cite for visual conclusions"
+    },
+    {
+      "id": "R09", "platform": "pinterest",
+      "source_url": "https://fixture.example/pinterest/search/botanical", "original_url": null,
+      "title": "FIXTURE Search result snippet", "creator": "unknown", "accessed_at": "2026-11-20",
+      "access_status": "partial", "evidence_type": "search_snippet", "origin": "discovered",
+      "local_image": null, "inspection_note": "", "observations": [], "elements": [],
+      "relevance": "Discovery lead", "limitations": "Snippet only",
+      "proposed_use": "Lead only", "avoid": "Do not cite for visual conclusions"
+    },
+    {
+      "id": "R10", "platform": "pinterest",
+      "source_url": "https://fixture.example/pinterest/board/private", "original_url": null,
+      "title": "FIXTURE Login-walled board", "creator": "unknown", "accessed_at": "2026-11-20",
+      "access_status": "blocked", "evidence_type": "inaccessible", "origin": "discovered",
+      "local_image": null, "inspection_note": "", "observations": [], "elements": [],
+      "relevance": "Unknown", "limitations": "Login wall. Recorded, not bypassed. Continued with original creator sites",
+      "proposed_use": "None", "avoid": "None"
+    },
+    {
+      "id": "R11", "platform": "pinterest",
+      "source_url": "https://fixture.example/pinterest/pin/11", "original_url": "https://fixture.example/studio-a/botanica",
+      "title": "FIXTURE Repost of R01", "creator": "unknown", "accessed_at": "2026-11-20",
+      "access_status": "ok", "evidence_type": "search_snippet", "origin": "discovered",
+      "local_image": null, "inspection_note": "", "observations": [], "elements": [],
+      "relevance": "Repost of the same project as R01", "limitations": "Duplicate; counted once",
+      "proposed_use": "None", "avoid": "None"
+    }
+  ]
+}

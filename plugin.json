@@ -1,0 +1,9 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "design-research-check",
+  "version": "0.1.0-beta.1",
+  "description": "Evidence-led design research and redesign: research real references, show rendered proposals, implement the chosen direction, verify the render.",
+  "author": { "name": "Lana" },
+  "keywords": ["design", "research", "redesign", "references", "ui"],
+  "license": "MIT"
+}

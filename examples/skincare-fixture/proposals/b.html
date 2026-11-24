@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proposal B: Apothecary Specimen (FIXTURE)</title>
+<style>
+  :root { --olive:#33422b; --cream:#f1ead7; --paper:#faf5e6; --line:#bdb48f; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--cream); color:var(--olive); font:15px/1.6 Georgia, serif; }
+  .fixture { background:var(--olive); color:var(--cream); font:13px system-ui, sans-serif; padding:6px 16px; }
+  header { text-align:center; padding:28px 16px 8px; border-bottom:1px solid var(--line); }
+  header .logo { font:700 13px system-ui, sans-serif; letter-spacing:.35em; text-transform:uppercase; }
+  header ul { display:flex; justify-content:center; gap:24px; list-style:none; padding:0; margin:14px 0 0; font:12px system-ui, sans-serif; letter-spacing:.2em; text-transform:uppercase; }
+  header a { color:inherit; text-decoration:none; } a:focus-visible { outline:3px solid #b4562f; outline-offset:3px; }
+  .plates { display:grid; grid-template-columns: repeat(3, 1fr); gap:0; max-width:1100px; margin:32px auto; border:1px solid var(--line); background:var(--paper); }
+  .plate { padding:28px 22px; border-right:1px solid var(--line); text-align:center; }
+  .plate:last-child { border-right:0; }
+  .plate .art { width:96px; height:96px; margin:0 auto 18px; }
+  .plate small { display:block; font:11px system-ui, sans-serif; letter-spacing:.28em; text-transform:uppercase; color:#6c7a5c; }
+  .plate h2 { font:400 22px Georgia, serif; margin:8px 0; }
+  .plate a { display:inline-block; margin-top:12px; border:1px solid var(--olive); padding:10px 20px; font:12px system-ui, sans-serif; letter-spacing:.2em; text-transform:uppercase; color:var(--olive); text-decoration:none; }
+  .lead { max-width:640px; margin:40px auto 0; padding:0 16px; text-align:center; }
+  .lead h1 { font:400 clamp(1.8rem,4vw,2.8rem)/1.1 Georgia, serif; margin:0 0 12px; }
+  @media (max-width: 760px) { .plates { grid-template-columns: 1fr; margin:24px 16px; } .plate { border-right:0; border-bottom:1px solid var(--line); } .plate:last-child { border-bottom:0; } }
+</style>
+</head>
+<body>
+<div class="fixture">FIXTURE proposal for an imagined brand. Not real research, not a real product.</div>
+<header><span class="logo">FIXTURE Olive Botanics</span><ul><li><a href="#">Shop</a></li><li><a href="#">Ritual</a></li><li><a href="#">Journal</a></li><li><a href="#">Cart</a></li></ul></header>
+<section class="lead"><h1>Botanicals, catalogued.</h1><p>Every formula is shown like a specimen plate: what it is, where it grows, how to use it.</p></section>
+<section class="plates">
+  <article class="plate"><svg class="art" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M48 88V16M48 16c-16 8-24 24-20 44 16-4 24-20 20-44Zm0 28c12 4 20 16 20 32-16-2-20-16-20-32Z"/></svg><small>Plate 01</small><h2>Face oil</h2><p>Rosehip, jojoba, evening primrose.</p><a href="#">View</a></article>
+  <article class="plate"><svg class="art" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><circle cx="48" cy="48" r="30"/><path d="M48 18v60M18 48h60M27 27l42 42M69 27 27 69"/></svg><small>Plate 02</small><h2>Clay mask</h2><p>Green clay, oat, chamomile.</p><a href="#">View</a></article>
+  <article class="plate"><svg class="art" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M20 76c0-30 20-52 56-56 0 36-22 56-56 56Zm0 0L56 40"/></svg><small>Plate 03</small><h2>Balm</h2><p>Beeswax, calendula, shea.</p><a href="#">View</a></article>
+</section>
+</body>
+</html>
