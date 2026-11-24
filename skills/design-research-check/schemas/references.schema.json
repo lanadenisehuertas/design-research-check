@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "design-research-check source ledger",
+  "description": "Documentation schema. The enforced rules live in scripts/lib/ledger.mjs, which also checks cross-field rules JSON Schema cannot express (local image exists, inspected needs a note, snippets cannot carry observed elements, dedupe).",
+  "type": "object",
+  "required": ["run_id", "evidence_ceiling", "references"],
+  "properties": {
+    "run_id": { "type": "string" },
+    "fixture": { "type": "boolean", "description": "true when the data is test data, not real research" },
+    "evidence_ceiling": { "enum": ["A", "B", "C"] },
+    "references": { "type": "array", "items": { "$ref": "#/$defs/ref" } }
+  },
+  "$defs": {
+    "element": {
+      "type": "object",
+      "required": ["category", "observation", "confidence"],
+      "properties": {
+        "category": { "enum": ["type", "grid", "spacing", "color", "imagery", "motif", "component", "motion", "ia"] },
+        "observation": { "type": "string" },
+        "confidence": { "enum": ["observed", "inferred"] }
+      }
+    },
+    "ref": {
+      "type": "object",
+      "required": ["id", "platform", "source_url", "title", "creator", "accessed_at", "access_status", "evidence_type", "origin", "relevance", "limitations", "proposed_use", "avoid"],
+      "properties": {
+        "id": { "type": "string" },
+        "platform": { "enum": ["pinterest", "behance", "dribbble", "cosmos", "collectui", "wallofportfolios", "user", "other"] },
+        "source_url": { "type": "string" },
+        "original_url": { "type": ["string", "null"] },
+        "title": { "type": "string" },
+        "creator": { "type": "string", "description": "\"unknown\" when not visible" },
+        "accessed_at": { "type": "string", "description": "ISO date" },
+        "access_status": { "enum": ["ok", "partial", "blocked", "inaccessible"] },
+        "evidence_type": { "enum": ["visually_inspected_image", "visually_inspected_live_page", "text_only", "search_snippet", "inaccessible"] },
+        "origin": { "enum": ["discovered", "user_provided"], "description": "\"generated\" is rejected" },
+        "local_image": { "type": ["string", "null"], "description": "path relative to the run folder, e.g. refs/R01.jpg; must be a non-empty png/jpg/jpeg/webp/gif/svg/avif inside the run folder" },
+        "curated": { "type": "boolean", "description": "true for the 8-12 strongest inspected references used by the directions" },
+        "inspection_note": { "type": "string" },
+        "observations": { "type": "array", "items": { "type": "string" } },
+        "elements": { "type": "array", "items": { "$ref": "#/$defs/element" } },
+        "relevance": { "type": "string" },
+        "limitations": { "type": "string" },
+        "proposed_use": { "type": "string" },
+        "avoid": { "type": "string" }
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "run_id": "{{run_id}}",
+  "fixture": false,
+  "evidence_ceiling": "{{ceiling}}",
+  "references": []
+}

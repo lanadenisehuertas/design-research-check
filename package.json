@@ -1,0 +1,11 @@
+{
+  "name": "design-research-check",
+  "version": "0.1.0-beta.1",
+  "private": true,
+  "type": "module",
+  "description": "Evidence-led design research and redesign skill for coding agents.",
+  "scripts": {
+    "test": "node --test \"tests/**/*.test.mjs\""
+  },
+  "engines": { "node": ">=20" }
+}

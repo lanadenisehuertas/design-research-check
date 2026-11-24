@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proposal A: Herbarium Editorial (FIXTURE)</title>
+<style>
+  :root { --olive:#33422b; --olive-soft:#5b6b4d; --cream:#f4eedf; --paper:#fbf7ec; --accent:#b4562f; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--cream); color:var(--olive); font:17px/1.6 system-ui, "Segoe UI", sans-serif; }
+  .fixture { background:var(--olive); color:var(--cream); font-size:13px; padding:6px 16px; }
+  nav { display:flex; justify-content:space-between; align-items:center; padding:20px clamp(16px,5vw,64px); }
+  nav .logo { font:700 20px Georgia, serif; letter-spacing:.02em; }
+  nav ul { display:flex; gap:28px; list-style:none; margin:0; padding:0; font-size:15px; }
+  nav a { color:inherit; text-decoration:none; } nav a:focus-visible, .cta:focus-visible { outline:3px solid var(--accent); outline-offset:3px; }
+  .hero { display:grid; grid-template-columns: 7fr 5fr; gap:clamp(24px,5vw,72px); align-items:end; padding:clamp(16px,5vw,64px); padding-right:0; }
+  .hero h1 { font:400 clamp(2.6rem,7vw,6rem)/.98 Georgia, "Times New Roman", serif; letter-spacing:-.02em; margin:0 0 24px; }
+  .hero p { max-width:34ch; margin:0 0 28px; }
+  .cta { display:inline-block; background:var(--olive); color:var(--cream); padding:14px 26px; text-decoration:none; font-size:15px; letter-spacing:.04em; }
+  .photo { aspect-ratio: 4/5; background: linear-gradient(160deg, #cdbf9a, #9aa37c); display:grid; place-items:center; color:var(--olive); font:13px monospace; text-align:center; padding:16px; }
+  .divider { display:block; margin:clamp(40px,8vw,96px) auto; width:48px; height:48px; }
+  .range { padding:0 clamp(16px,5vw,64px) clamp(48px,8vw,96px); display:grid; grid-template-columns: 5fr 7fr; gap:clamp(24px,5vw,72px); align-items:center; }
+  .range h2 { font:400 clamp(2rem,4.5vw,3.4rem)/1.02 Georgia, serif; margin:0 0 16px; }
+  .mobilebar { display:none; }
+  @media (max-width: 760px) {
+    nav ul { display:none; }
+    .hero, .range { grid-template-columns: 1fr; padding-right:clamp(16px,5vw,64px); }
+    .mobilebar { display:grid; grid-template-columns:repeat(4,1fr); position:sticky; bottom:0; background:var(--paper); border-top:1px solid #d8cfb8; text-align:center; font-size:12px; }
+    .mobilebar a { padding:12px 4px; color:var(--olive); text-decoration:none; min-height:48px; }
+  }
+  @media (prefers-reduced-motion: no-preference) { .hero h1, .hero p { animation: rise .6s ease-out both; } @keyframes rise { from { opacity:0; transform:translateY(12px); } } }
+</style>
+</head>
+<body>
+<div class="fixture">FIXTURE proposal for an imagined brand. Not real research, not a real product. Photography is a labeled placeholder.</div>
+<nav><span class="logo">FIXTURE Olive Botanics</span><ul><li><a href="#">Shop</a></li><li><a href="#">Ritual</a></li><li><a href="#">Journal</a></li><li><a href="#">Cart</a></li></ul></nav>
+<main>
+  <section class="hero">
+    <div>
+      <h1>Skin care, grown slowly.</h1>
+      <p>Cold-pressed botanical oils and clay, made in small batches and shipped in glass.</p>
+      <a class="cta" href="#">Shop the ritual</a>
+    </div>
+    <div class="photo" role="img" aria-label="Placeholder for warm natural-light product photography">PLACEHOLDER<br>warm product photograph<br>(supply real image)</div>
+  </section>
+  <svg class="divider" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M24 44V8M24 8c-8 4-12 12-10 22 8-2 12-10 10-22Zm0 14c6 2 10 8 10 16-8-1-10-8-10-16Z"/></svg>
+  <section class="range">
+    <div class="photo" role="img" aria-label="Placeholder for ingredient photography">PLACEHOLDER<br>ingredient photograph</div>
+    <div>
+      <h2>Three oils, one clay.</h2>
+      <p>Each formula lists every ingredient and where it grows. Start with the face oil; add the clay mask weekly.</p>
+      <a class="cta" href="#">See the range</a>
+    </div>
+  </section>
+</main>
+<div class="mobilebar"><a href="#">Shop</a><a href="#">Ritual</a><a href="#">Journal</a><a href="#">Cart</a></div>
+</body>
+</html>

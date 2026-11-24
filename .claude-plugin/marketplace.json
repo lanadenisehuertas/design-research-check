@@ -1,0 +1,12 @@
+{
+  "name": "design-research-check-marketplace",
+  "owner": { "name": "Lana" },
+  "metadata": { "description": "Marketplace for the design-research-check evidence-led design research and redesign skill." },
+  "plugins": [
+    {
+      "name": "design-research-check",
+      "source": "./",
+      "description": "Evidence-led design research and redesign workflow."
+    }
+  ]
+}

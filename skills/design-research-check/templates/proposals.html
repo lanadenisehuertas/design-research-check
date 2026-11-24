@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proposals: {{run_id}}</title>
+<!-- Template syntax: {{...}} is filled by the agent. Each proposal is a NEW design for the user's project,
+     built from the user's real content and brand. It is not a reference and not working UI.
+     Each iframe or image points at a rendered proposal page (proposals/a.html etc.) for desktop and mobile.
+     Label generated concept images "generated concept". -->
+<style>
+  :root { --ink:#1d1d1b; --muted:#66645e; --ground:#f6f3ec; --card:#fffdf8; --line:#d9d4c8; --accent:#2f4a3a; }
+  @media (prefers-color-scheme: dark) { :root { --ink:#efece4; --muted:#a8a498; --ground:#161614; --card:#1f1f1c; --line:#34332f; --accent:#9cc3a9; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--ground); color:var(--ink); font:16px/1.5 system-ui, sans-serif; }
+  header, main { max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
+  h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); line-height:1.1; margin:0 0 8px; }
+  .banner { background:var(--accent); color:var(--ground); padding:8px 16px; font-size:14px; }
+  .proposal { background:var(--card); border:1px solid var(--line); border-radius:6px; padding:16px; margin:0 0 24px; }
+  .views { display:grid; grid-template-columns: 1fr; gap:16px; }
+  @media (min-width: 900px) { .views { grid-template-columns: 2fr 1fr; } }
+  .views img { width:100%; height:auto; border:1px solid var(--line); border-radius:4px; background:var(--line); }
+  .recommended { color:var(--accent); font-weight:700; }
+  .meta { color:var(--muted); font-size:14px; }
+  dl { display:grid; grid-template-columns: max-content 1fr; gap:4px 16px; font-size:14px; }
+  dt { font-weight:700; }
+  dd { margin:0; }
+</style>
+</head>
+<body>
+<div class="banner">{{fixture_banner}}</div>
+<header>
+  <h1>Design proposals</h1>
+  <p class="meta">Run {{run_id}} · {{preview_path}} · proposals are new designs, not discovered references</p>
+</header>
+<main>
+  <!-- repeat per proposal (two or three) -->
+  <article class="proposal" id="{{proposal_id}}">
+    <h2>{{name}} <span class="recommended">{{recommended_label}}</span></h2>
+    <div class="views">
+      <figure><img src="{{desktop_png}}" alt="{{name}} desktop composition"><figcaption class="meta">Desktop {{desktop_width}}px</figcaption></figure>
+      <figure><img src="{{mobile_png}}" alt="{{name}} mobile adaptation"><figcaption class="meta">Mobile {{mobile_width}}px</figcaption></figure>
+    </div>
+    <dl>
+      <dt>References</dt><dd>{{ref_ids}}</dd>
+      <dt>Elements adapted</dt><dd>{{elements_adapted}}</dd>
+      <dt>Typography</dt><dd>{{typography}}</dd>
+      <dt>Palette</dt><dd>{{palette}}</dd>
+      <dt>Layout and imagery</dt><dd>{{layout_imagery}}</dd>
+      <dt>Why it fits</dt><dd>{{fit}}</dd>
+      <dt>Main tradeoff</dt><dd>{{tradeoff}}</dd>
+    </dl>
+  </article>
+</main>
+</body>
+</html>

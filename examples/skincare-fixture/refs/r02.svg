@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+<rect width="800" height="600" fill="#f3efe6"/>
+<rect x="40" y="40" width="720" height="520" fill="none" stroke="#6b5b3e" stroke-width="2" stroke-dasharray="8 8"/>
+<text x="60" y="90" font-family="monospace" font-size="22" fill="#6b5b3e">FIXTURE placeholder image, not a real reference</text>
+<text x="60" y="130" font-family="monospace" font-size="20" fill="#6b5b3e">R02: product detail: sticky buy panel, ingredient accordion</text>
+</svg>

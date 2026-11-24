@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reference board: fixture-skincare-example</title>
+<style>
+  :root { --ink:#1d1d1b; --muted:#66645e; --ground:#f6f3ec; --card:#fffdf8; --line:#d9d4c8; --accent:#2f4a3a; }
+  @media (prefers-color-scheme: dark) { :root { --ink:#efece4; --muted:#a8a498; --ground:#161614; --card:#1f1f1c; --line:#34332f; --accent:#9cc3a9; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--ground); color:var(--ink); font:16px/1.5 Georgia, "Times New Roman", serif; }
+  header, main { max-width: 1120px; margin: 0 auto; padding: 24px 16px; }
+  h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); line-height:1.1; margin:0 0 8px; }
+  .meta { color:var(--muted); font:14px/1.5 system-ui, sans-serif; }
+  .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:6px; overflow:hidden; display:flex; flex-direction:column; }
+  .card img { width:100%; aspect-ratio: 4/3; object-fit:cover; background:var(--line); display:block; }
+  .body { padding:12px 14px 14px; font:14px/1.5 system-ui, sans-serif; }
+  .id { font-weight:700; color:var(--accent); }
+  .tag { display:inline-block; border:1px solid var(--line); border-radius:99px; padding:0 8px; margin:2px 4px 2px 0; font-size:12px; }
+  a { color:var(--accent); }
+  .banner { background:var(--accent); color:var(--ground); padding:8px 16px; font:14px system-ui, sans-serif; }
+</style>
+</head>
+<body>
+<div class="banner">FIXTURE, not real research. Images are labeled placeholders.</div>
+<header>
+  <h1>Reference board</h1>
+  <p class="meta">Run fixture-skincare-example · evidence ceiling A · 11 discovered, 10 unique, 7 inspected</p>
+</header>
+<main>
+  <section class="grid" id="board">
+<article class="card">
+  <img src="refs/r01.svg" alt="FIXTURE Botanica editorial store">
+  <div class="body">
+    <div><span class="id">R01</span> · FIXTURE Botanica editorial store</div>
+    <div class="meta">Fixture Studio A · behance · accessed 2026-11-20</div>
+    <div><a href="https://fixture.example/behance/botanica-editorial">source</a> · <a href="https://fixture.example/studio-a/botanica">original</a></div>
+    <div><span class="tag" title="observed">type</span><span class="tag" title="observed">grid</span><span class="tag" title="observed">imagery</span></div>
+    <ul><li>high-contrast serif display headline at very large scale</li><li>text and image columns deliberately offset, not centered</li><li>single dominant product photograph per section</li></ul>
+    <p class="meta">Limits: Static case-study image; no interaction shown</p>
+  </div>
+</article>
+<article class="card">
+  <img src="refs/r02.svg" alt="FIXTURE Product detail with ingredient accordion">
+  <div class="body">
+    <div><span class="id">R02</span> · FIXTURE Product detail with ingredient accordion</div>
+    <div class="meta">Fixture Studio B · dribbble · accessed 2026-11-20</div>
+    <div><a href="https://fixture.example/dribbble/product-detail">source</a> · <a href="https://fixture.example/studio-b/product-detail">original</a></div>
+    <div><span class="tag" title="observed">component</span><span class="tag" title="observed">ia</span><span class="tag" title="inferred">motion (inferred)</span></div>
+    <ul><li>sticky buy panel with a single primary action</li><li>ingredients and usage as an accordion under the buy panel</li><li>accordion likely animates open <em>(inferred)</em></li></ul>
+    <p class="meta">Limits: Concept shot; behavior inferred</p>
+  </div>
+</article>
+<article class="card">
+  <img src="refs/r03.svg" alt="FIXTURE Botanical packaging system">
+  <div class="body">
+    <div><span class="id">R03</span> · FIXTURE Botanical packaging system</div>
+    <div class="meta">Fixture Studio C · cosmos · accessed 2026-11-20</div>
+    <div><a href="https://fixture.example/cosmos/botanical-packaging">source</a> · <a href="https://fixture.example/studio-c/packaging">original</a></div>
+    <div><span class="tag" title="observed">motif</span><span class="tag" title="observed">color</span></div>
+    <ul><li>single-weight line-drawn botanical motif used sparingly</li><li>olive ink on cream ground, one accent</li></ul>
+    <p class="meta">Limits: Physical packaging, not a screen</p>
+  </div>
+</article>
+<article class="card">
+  <img src="refs/r04.svg" alt="FIXTURE Warm photography journal">
+  <div class="body">
+    <div><span class="id">R04</span> · FIXTURE Warm photography journal</div>
+    <div class="meta">Fixture Studio D · pinterest · accessed 2026-11-20</div>
+    <div><a href="https://fixture.example/pinterest/pin/4">source</a> · <a href="https://fixture.example/studio-d/journal">original</a></div>
+    <div><span class="tag" title="observed">imagery</span><span class="tag" title="observed">spacing</span></div>
+    <ul><li>warm natural-light photography, soft shadows, no heavy overlays</li><li>generous margins, sections separated by space not rules</li></ul>
+    <p class="meta">Limits: Resolved to the creator&#39;s own site from a pin</p>
+  </div>
+</article>
+<article class="card">
+  <img src="refs/r05.svg" alt="FIXTURE Live mobile shop">
+  <div class="body">
+    <div><span class="id">R05</span> · FIXTURE Live mobile shop</div>
+    <div class="meta">Fixture Studio E · wallofportfolios · accessed 2026-11-20</div>
+    <div><a href="https://fixture.example/wallofportfolios/e">source</a> · <a href="https://fixture.example/studio-e/shop">original</a></div>
+    <div><span class="tag" title="observed">component</span><span class="tag" title="observed">ia</span></div>
+    <ul><li>bottom navigation bar on mobile with four destinations</li><li>filters collapse into a single sheet on mobile</li></ul>
+    <p class="meta">Limits: One viewport inspected</p>
+  </div>
+</article>
+<article class="card">
+  <img src="refs/r06.svg" alt="FIXTURE Serif specimen">
+  <div class="body">
+    <div><span class="id">R06</span> · FIXTURE Serif specimen</div>
+    <div class="meta">Fixture Studio F · behance · accessed 2026-11-20</div>
+    <div><a href="https://fixture.example/behance/serif-specimen">source</a> · <a href="https://fixture.example/studio-f/specimen">original</a></div>
+    <div><span class="tag" title="observed">type</span></div>
+    <ul><li>serif for display, plain sans for body and labels, tight display leading</li></ul>
+    <p class="meta">Limits: Font names not stated in the source; described by style only</p>
+  </div>
+</article>
+<article class="card">
+  <img src="refs/r07.svg" alt="FIXTURE Asymmetric hero grid">
+  <div class="body">
+    <div><span class="id">R07</span> · FIXTURE Asymmetric hero grid</div>
+    <div class="meta">Fixture Studio G · dribbble · accessed 2026-11-20</div>
+    <div><a href="https://fixture.example/dribbble/asymmetric-hero">source</a> · <a href="https://fixture.example/studio-g/hero">original</a></div>
+    <div><span class="tag" title="observed">grid</span><span class="tag" title="observed">spacing</span></div>
+    <ul><li>roughly 7/5 column split, image bleeds off the edge (ratio is an estimate)</li><li>tight inside the hero, loose between sections</li></ul>
+    <p class="meta">Limits: Ratio estimated from an image</p>
+  </div>
+</article>
+  </section>
+  <h2>Not inspected</h2>
+  <ul id="not-inspected">
+<li>R08 · collectui · partial · text_only · Text only; no design was seen</li>
+<li>R09 · pinterest · partial · search_snippet · Snippet only</li>
+<li>R10 · pinterest · blocked · inaccessible · Login wall. Recorded, not bypassed. Continued with original creator sites</li>
+  </ul>
+</main>
+</body>
+</html>

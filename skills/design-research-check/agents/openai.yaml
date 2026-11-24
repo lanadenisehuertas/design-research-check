@@ -1,0 +1,6 @@
+interface:
+  display_name: "Design Research Check"
+  short_description: "Research real design references, then redesign and verify"
+  default_prompt: "Use $design-research-check to research real references and redesign this page so it no longer looks generic."
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reference board: {{run_id}}</title>
+<!-- Template syntax: {{...}} and the <template> card are filled by the agent from references.json.
+     Show inspected references only, with image, ID, link, creator and element annotations.
+     Blocked or text-only references appear in the "Not inspected" list without images.
+     This page is the reference board. Proposals live in proposals.html, never here. -->
+<style>
+  :root { --ink:#1d1d1b; --muted:#66645e; --ground:#f6f3ec; --card:#fffdf8; --line:#d9d4c8; --accent:#2f4a3a; }
+  @media (prefers-color-scheme: dark) { :root { --ink:#efece4; --muted:#a8a498; --ground:#161614; --card:#1f1f1c; --line:#34332f; --accent:#9cc3a9; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--ground); color:var(--ink); font:16px/1.5 Georgia, "Times New Roman", serif; }
+  header, main { max-width: 1120px; margin: 0 auto; padding: 24px 16px; }
+  h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); line-height:1.1; margin:0 0 8px; }
+  .meta { color:var(--muted); font:14px/1.5 system-ui, sans-serif; }
+  .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:6px; overflow:hidden; display:flex; flex-direction:column; }
+  .card img { width:100%; aspect-ratio: 4/3; object-fit:cover; background:var(--line); display:block; }
+  .body { padding:12px 14px 14px; font:14px/1.5 system-ui, sans-serif; }
+  .id { font-weight:700; color:var(--accent); }
+  .tag { display:inline-block; border:1px solid var(--line); border-radius:99px; padding:0 8px; margin:2px 4px 2px 0; font-size:12px; }
+  a { color:var(--accent); }
+  .banner { background:var(--accent); color:var(--ground); padding:8px 16px; font:14px system-ui, sans-serif; }
+</style>
+</head>
+<body>
+<div class="banner">{{fixture_banner}}</div>
+<header>
+  <h1>Reference board</h1>
+  <p class="meta">Run {{run_id}} · evidence ceiling {{ceiling}} · {{counts_line}}</p>
+</header>
+<main>
+  <section class="grid" id="board">
+    <!-- one card per visually inspected reference -->
+    <article class="card">
+      <img src="{{local_image}}" alt="{{alt_description}}">
+      <div class="body">
+        <div><span class="id">{{id}}</span> · {{title}}</div>
+        <div class="meta">{{creator}} · {{platform}} · accessed {{accessed_at}}</div>
+        <div><a href="{{source_url}}">source</a> · <a href="{{original_url}}">original</a></div>
+        <div>{{element_tags}}</div>
+        <p>{{observations}}</p>
+        <p class="meta">Limits: {{limitations}}</p>
+      </div>
+    </article>
+  </section>
+  <h2>Not inspected</h2>
+  <ul id="not-inspected">
+    <li>{{id}} · {{platform}} · {{access_status}} · {{evidence_type}} · {{limitations}}</li>
+  </ul>
+</main>
+</body>
+</html>

@@ -1,0 +1,8 @@
+node_modules/
+/design-research-check/
+.DS_Store
+
+# Local tool state and internal working docs
+.impeccable/
+docs/audit-prompt.md
+docs/superpowers/
