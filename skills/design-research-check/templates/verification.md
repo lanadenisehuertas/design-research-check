@@ -8,7 +8,10 @@ Evidence ceiling: {{ceiling}}. Wording below must not exceed it (`check-claims.m
 |---|---|---|
 | Matches selected direction and brief | | |
 | Hierarchy, type, spacing, imagery | | |
-| Overflow, clipping, wrapping, contrast, cropping | | |
+| Overflow, clipping, wrapping, contrast, cropping (cite `final/<route>.audit.json`) | | |
+| Accessibility: labels, alt text, zoom, focus visible, touch targets 44px, reduced motion (cite `final/<route>.audit.json`) | | |
+| Critical audit findings fixed or explained by id | | |
+| Design system: tokens match the code (cite `final/system.json`), pointer written to CLAUDE.md / AGENTS.md | | |
 | Navigation and key user tasks | | |
 | Keyboard access and focus | | |
 | Console errors, broken assets, regressions | | |

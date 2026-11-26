@@ -4,7 +4,7 @@ A prompt cannot create browsing, vision, image generation or file access. Check 
 
 ## What counts
 - `webSearch`: a search tool.
-- `imageCapture`: you can save a reference image to disk. `scripts/save-image.mjs <url> <out>` does this anywhere with network access.
+- `imageCapture`: you can save a reference image to disk. `scripts/save-image.mjs <url> <out>` (one image) or `scripts/capture-refs.mjs <RUN> <list>` (a batch) does this anywhere with network access.
 - `vision`: you can open a saved PNG/JPG/WebP and see its pixels (for example the Read tool on an image file). Fetching a page as text, alt text or a snippet is **not** vision. SVG and AVIF may not be viewable: screenshot or convert them.
 - `render`: you can screenshot a page or your own HTML. `scripts/screenshot.mjs` uses Playwright (resolved from the user's project or the plugin) or the system Chrome/Edge in headless mode.
 - `browser`: an interactive browser tool (for example a Chrome extension tool). Useful for live interaction; not required for ceiling A.

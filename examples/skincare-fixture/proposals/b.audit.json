@@ -1,0 +1,240 @@
+{
+  "status": "ok",
+  "url": "proposals/b.html",
+  "engine": "system browser",
+  "widths": [
+    1440,
+    768,
+    390
+  ],
+  "counts": {
+    "critical": 0,
+    "major": 12,
+    "minor": 11
+  },
+  "passed": true,
+  "summary": [
+    {
+      "id": "target-size-min",
+      "severity": "major",
+      "count": 12,
+      "widths": [
+        1440,
+        768,
+        390
+      ],
+      "message": "interactive target 40x16px is under the 24x24 WCAG 2.2 minimum",
+      "selector": "a"
+    },
+    {
+      "id": "text-tiny",
+      "severity": "minor",
+      "count": 3,
+      "widths": [
+        1440,
+        768,
+        390
+      ],
+      "message": "3 text run(s) under 12px",
+      "selector": "small"
+    },
+    {
+      "id": "target-size-touch",
+      "severity": "minor",
+      "count": 6,
+      "widths": [
+        768,
+        390
+      ],
+      "message": "touch target 80x38px is under the recommended 44x44",
+      "selector": "a"
+    },
+    {
+      "id": "body-text-small",
+      "severity": "minor",
+      "count": 2,
+      "widths": [
+        768,
+        390
+      ],
+      "message": "body text is 15px; 16px avoids iOS auto-zoom on inputs and reads better on mobile",
+      "selector": "body"
+    }
+  ],
+  "pages": [
+    {
+      "width": 1440,
+      "findings": [
+        {
+          "id": "target-size-min",
+          "severity": "major",
+          "message": "interactive target 40x16px is under the 24x24 WCAG 2.2 minimum",
+          "selector": "a"
+        },
+        {
+          "id": "target-size-min",
+          "severity": "major",
+          "message": "interactive target 52x16px is under the 24x24 WCAG 2.2 minimum",
+          "selector": "a"
+        },
+        {
+          "id": "target-size-min",
+          "severity": "major",
+          "message": "interactive target 68x16px is under the 24x24 WCAG 2.2 minimum",
+          "selector": "a"
+        },
+        {
+          "id": "target-size-min",
+          "severity": "major",
+          "message": "interactive target 38x16px is under the 24x24 WCAG 2.2 minimum",
+          "selector": "a"
+        },
+        {
+          "id": "text-tiny",
+          "severity": "minor",
+          "message": "3 text run(s) under 12px",
+          "selector": "small"
+        }
+      ],
+      "skipped": {
+        "contrast": 0
+      },
+      "stats": {
+        "viewport": 1440,
+        "scrollWidth": 1440
+      }
+    },
+    {
+      "width": 768,
+      "findings": [
+        {
+          "id": "target-size-min",
+          "severity": "major",
+          "message": "interactive target 40x16px is under the 24x24 WCAG 2.2 minimum",
+          "selector": "a"
+        },
+        {
+          "id": "target-size-min",
+          "severity": "major",
+          "message": "interactive target 52x16px is under the 24x24 WCAG 2.2 minimum",
+          "selector": "a"
+        },
+        {
+          "id": "target-size-min",
+          "severity": "major",
+          "message": "interactive target 68x16px is under the 24x24 WCAG 2.2 minimum",
+          "selector": "a"
+        },
+        {
+          "id": "target-size-min",
+          "severity": "major",
+          "message": "interactive target 38x16px is under the 24x24 WCAG 2.2 minimum",
+          "selector": "a"
+        },
+        {
+          "id": "target-size-touch",
+          "severity": "minor",
+          "message": "touch target 80x38px is under the recommended 44x44",
+          "selector": "a"
+        },
+        {
+          "id": "target-size-touch",
+          "severity": "minor",
+          "message": "touch target 80x38px is under the recommended 44x44",
+          "selector": "a"
+        },
+        {
+          "id": "target-size-touch",
+          "severity": "minor",
+          "message": "touch target 80x38px is under the recommended 44x44",
+          "selector": "a"
+        },
+        {
+          "id": "text-tiny",
+          "severity": "minor",
+          "message": "3 text run(s) under 12px",
+          "selector": "small"
+        },
+        {
+          "id": "body-text-small",
+          "severity": "minor",
+          "message": "body text is 15px; 16px avoids iOS auto-zoom on inputs and reads better on mobile",
+          "selector": "body"
+        }
+      ],
+      "skipped": {
+        "contrast": 0
+      },
+      "stats": {
+        "viewport": 768,
+        "scrollWidth": 768
+      }
+    },
+    {
+      "width": 390,
+      "findings": [
+        {
+          "id": "target-size-min",
+          "severity": "major",
+          "message": "interactive target 40x16px is under the 24x24 WCAG 2.2 minimum",
+          "selector": "a"
+        },
+        {
+          "id": "target-size-min",
+          "severity": "major",
+          "message": "interactive target 52x16px is under the 24x24 WCAG 2.2 minimum",
+          "selector": "a"
+        },
+        {
+          "id": "target-size-min",
+          "severity": "major",
+          "message": "interactive target 68x16px is under the 24x24 WCAG 2.2 minimum",
+          "selector": "a"
+        },
+        {
+          "id": "target-size-min",
+          "severity": "major",
+          "message": "interactive target 38x16px is under the 24x24 WCAG 2.2 minimum",
+          "selector": "a"
+        },
+        {
+          "id": "target-size-touch",
+          "severity": "minor",
+          "message": "touch target 80x38px is under the recommended 44x44",
+          "selector": "a"
+        },
+        {
+          "id": "target-size-touch",
+          "severity": "minor",
+          "message": "touch target 80x38px is under the recommended 44x44",
+          "selector": "a"
+        },
+        {
+          "id": "target-size-touch",
+          "severity": "minor",
+          "message": "touch target 80x38px is under the recommended 44x44",
+          "selector": "a"
+        },
+        {
+          "id": "text-tiny",
+          "severity": "minor",
+          "message": "3 text run(s) under 12px",
+          "selector": "small"
+        },
+        {
+          "id": "body-text-small",
+          "severity": "minor",
+          "message": "body text is 15px; 16px avoids iOS auto-zoom on inputs and reads better on mobile",
+          "selector": "body"
+        }
+      ],
+      "skipped": {
+        "contrast": 0
+      },
+      "stats": {
+        "viewport": 390,
+        "scrollWidth": 390
+      }
+    }
+  ]
+}

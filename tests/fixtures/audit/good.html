@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Good</title>
+<style>
+body { margin: 0; font: 18px/1.6 Georgia, serif; color: #1b1b1b; background: #ffffff; }
+main { max-width: 36rem; padding: 2rem 1rem; }
+label { display: block; margin-bottom: .25rem; }
+input, button { font: inherit; min-height: 48px; padding: 0 1rem; }
+button { background: #1b1b1b; color: #fff; border: 0; }
+button:focus-visible { outline: 3px solid #a44a2e; outline-offset: 2px; }
+.spin { animation: s 1s infinite; }
+@keyframes s { to { transform: rotate(1turn); } }
+@media (prefers-reduced-motion: reduce) { .spin { animation: none; } }
+</style></head>
+<body><main>
+<h1>Three coffees, roasted every Tuesday.</h1>
+<h2>Join the list</h2>
+<img src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" width="40" height="40" alt="Roasting drum">
+<form><label for="e">Email address</label><input id="e" type="email" autocomplete="email"> <button type="submit">Subscribe</button></form>
+<div class="spin" aria-hidden="true">o</div>
+</main></body></html>

@@ -1,61 +1,139 @@
 # design-research-check
 
-An agent skill for the moment an AI-generated site looks generic, or keeps drifting through guesswork revisions. It sends the agent back to real design work: it researches references on Pinterest, Behance, Dribbble and Cosmos (plus your own links), looks at the images, extracts specific elements such as type pairing, grid logic, spacing, image treatment and component details, shows rendered proposals built from your brand and content, implements the direction you pick, and checks the render.
+Your AI-built site looks generic. This skill makes the agent stop guessing and look at real design work first.
 
-It works from a minimal prompt such as "make it look premium". It infers the brief from your project, lists its assumptions, and lets the proposals stand in for a questionnaire.
+It researches Pinterest, Behance, Dribbble and Cosmos, opens and studies the images, and pulls out concrete elements: type pairings, grids, spacing, image treatment, component details. Then it shows you rendered proposals built from your own content, builds the one you pick, and checks the result in a browser.
 
-Give it your own taste when you have it: a Pinterest board, a Cosmos collection, Behance or Dribbble links, or a folder of screenshots. It uses those before searching. A private board needs your own signed-in browser (for example Claude in Chrome) or a screenshot export.
+A short prompt is enough: "make this look premium". It works out the brief from your project and lists its assumptions so you can correct them.
 
-**Central rule:** find evidence, inspect it, explain the useful pattern, adapt it to your brand, render it, verify it.
+## Quick start
+
+**Claude Code**
+
+```
+claude plugin marketplace add lanadenisehuertas/design-research-check
+claude plugin install design-research-check@design-research-check-marketplace
+```
+
+Then, in your project:
+
+```
+/design-research-check:design-research-check make this look premium
+```
+
+Other hosts (Codex, Cursor, any agent) are covered in [Install](#install).
+
+## Pick how much you want
+
+| You say | What happens | Time | Changes your code |
+|---|---|---|---|
+| "check this page for accessibility and UI problems" | **Audit.** Renders the page, scans it, writes a ranked list of problems with file and line. No web research. | about 2 min | no |
+| "quick redesign, this looks AI-made" | **Quick redesign.** Smaller research round (5 to 8 references studied), two proposals, then builds your pick. | about 10 min (estimate) | yes |
+| "make this look premium" | **Full redesign.** Deep research (15 to 20 references studied), three proposals, then builds your pick. | 15 to 30 min | yes |
+| "show me inspiration, don't change anything" | **Research only.** References, a board and proposals. | 15 to 30 min | no |
+
+Add "let me pick first" to any redesign and it stops after the proposals and waits for you.
+
+The agent says the expected time before it starts. A full run uses roughly $4 to $8 of usage.
 
 ## What you get
 
-A run folder, `design-research-check/<run-id>/`, with the brief, baseline, queries, a source ledger (`references.json`), a reference board, synthesis, a design spec where every decision cites inspected references, proposal previews, a decision map and a verification report.
+Everything lands in `design-research-check/<run-id>/` in your project:
 
-For a redesign it also writes `compare.html`: baseline and final screenshots side by side, plus an AI-default tell scan before and after. The scan lists purple gradients, gradient text, emoji icons, stock copy, glass panels, glows, three equal cards, pill-shaped everything, default-sans-only type and a centered hero, each with file and line. On the test site the scan scored 14 before and 0–3 on the research-led proposals.
+- **`board.html`**: the references it studied, with notes on what each one contributes.
+- **`proposals/`**: two or three directions, rendered at desktop and mobile widths.
+- **`compare.html`**: your page before and after, side by side.
+- **`references.json`**: every source, and whether it was actually looked at or only found.
+- The brief, the design spec (each decision cites the references behind it) and a verification report.
 
-## Modes
+After a redesign it also leaves two things in your project root:
 
-`research` and `review` never edit your application. `redesign` does the full pipeline. `preview-first` waits for your pick after the proposals. `auto` recommends a direction and continues.
+- **`design-system.md`**: colors, fonts, spacing and component rules, with a machine-readable tokens block.
+- **A short note in `CLAUDE.md` and `AGENTS.md`** telling future agent sessions to read `design-system.md` before touching the UI. That is what keeps the next page you add from drifting.
 
-## Evidence ceiling
+## How it checks its own work
 
-The skill tells you up front what it can actually see.
-- **A**: the agent can save reference images, look at them, and render pages. Full evidence-led run.
-- **B**: it can look at saved or supplied images but cannot render. Proposals ship unrendered.
-- **C**: no image vision. The result is provisional and is never called visually verified.
+- **Every render is audited automatically.** When the agent screenshots your page or a proposal, the same step checks contrast, horizontal scrolling, missing labels and alt text, zoom, focus styles and tap-target size at 1440, 768 and 390 px. A proposal with a critical problem cannot pass the final check. This exists because eyeballing failed: two earlier proposals shipped with 1.07:1 text and 463 px of sideways scroll that the agent had looked at and missed.
+- **Drift is measured.** `check-system` lists every color or font in your code that `design-system.md` does not declare, with file and line.
+- **AI-default tells are counted.** Purple gradients, gradient text, emoji icons, stock copy, three equal cards and similar defaults are scored before and after.
+- **A completion gate** refuses to call a run done until every deliverable exists and the evidence rules hold.
 
-Fetching a page as text is not vision. Gallery sites often refuse automated fetches, so how many gallery works get inspected varies from run to run (see STATUS).
+## What the agent can see
 
-## Install and invoke
+It tells you this up front:
 
-Details and the verified-or-not status per host are in [docs/STATUS.md](docs/STATUS.md).
+- **A**: it can save images, look at them and render pages. Full run.
+- **B**: it can look at images but cannot render. Proposals are not rendered.
+- **C**: no image vision. Results are marked provisional.
+
+Reading a page as text does not count as looking at it.
+
+## Your own taste
+
+Give it a Pinterest board, a Cosmos collection, Behance or Dribbble links, or a folder of screenshots. It uses those before searching. A private board needs your signed-in browser (for example Claude in Chrome) or a screenshot export.
+
+## Install
 
 | Host | Install | Invoke |
 |---|---|---|
-| Claude Code | `claude plugin marketplace add lanadenisehuertas/design-research-check`, then `claude plugin install design-research-check@design-research-check-marketplace` | `/design-research-check:design-research-check <request>` or ask in plain words |
-| Codex | `codex plugin marketplace add lanadenisehuertas/design-research-check` (or a local path), then `codex plugin add design-research-check@design-research-check-marketplace`; or copy `skills/design-research-check/` into `.agents/skills/` | `$design-research-check` |
-| Cursor | Customize, "From GitHub Repository"; or put this folder in `~/.cursor/plugins/local` and reload the window; or copy the skill into `.cursor/skills/` | `/design-research-check` |
-| Other agents | give the agent `adapters/standalone/operating-prompt.md` | ask in plain words |
+| Claude Code | the two commands in [Quick start](#quick-start) | `/design-research-check:design-research-check <request>` |
+| Codex | `codex plugin marketplace add lanadenisehuertas/design-research-check`, then `codex plugin add design-research-check@design-research-check-marketplace`. Or copy `skills/design-research-check/` into `.agents/skills/`. | `$design-research-check` |
+| Cursor | Customize, then "From GitHub Repository". Or copy `skills/design-research-check/` into `.cursor/skills/`. | `/design-research-check` |
+| Any other agent | give it `adapters/standalone/operating-prompt.md` | ask in plain words |
 
-Local test for Claude Code: `claude --plugin-dir .`
+If you have other design skills installed, a plain "the site looks generic" may go to one of them. Invoke this one by name to be sure.
 
-If you have other design skills installed (for example a "taste" or frontend-design skill), a plain request like "the site looks generic" may be routed to them instead. Invoke this one by name to be sure: `/design-research-check:design-research-check make this look premium`.
+Which hosts have actually been tested is in [docs/STATUS.md](docs/STATUS.md).
 
 ## Helper scripts
 
-Node 20+, no dependencies, in `skills/design-research-check/scripts/`: `detect-capabilities`, `new-run`, `save-image` (download a reference image to inspect), `screenshot` (Playwright if installed, otherwise the system Chrome or Edge), `merge-shards`, `validate-ledger`, `check-claims`, `scan-outbound`, `build-board`, `detect-slop` (AI-default tells, with a before/after compare), `build-compare` (the before/after page), `check-run` (the completion gate) and `build-standalone`. You can run `detect-slop` on any project on its own: `node skills/design-research-check/scripts/detect-slop.mjs src/`.
+Node 20 or later, no dependencies, in `skills/design-research-check/scripts/`. The agent runs them; you can too.
 
-## Develop
+| Script | Does |
+|---|---|
+| `audit-ui` | Render a page and check contrast, overflow, labels, alt text, zoom, focus and tap targets |
+| `screenshot` | Capture a page at several widths, and audit it if it is local |
+| `detect-slop` | List AI-default tells with file and line, with a before/after score |
+| `check-system` | List colors and fonts in your code that `design-system.md` does not declare |
+| `remember` | Write the `design-system.md` pointer into `CLAUDE.md` and `AGENTS.md` |
+| `capture-refs` | Download a batch of reference images and write the ledger entries |
+| `annotate-refs` | Record what the agent saw in each image |
+| `check-run` | The completion gate |
 
-`npm test` runs the logic tests on labeled fixtures. After changing anything under `skills/design-research-check/`, run `node skills/design-research-check/scripts/build-standalone.mjs`; a test fails if the standalone prompt drifts.
-`examples/skincare-fixture/` is an end-to-end example run made of fixture data, not real research.
-`evals/` holds the usefulness evals and rubric. The planned with/without-skill comparison has not been completed.
+Also: `new-run`, `save-image`, `merge-shards`, `validate-ledger`, `check-claims`, `scan-outbound`, `build-board`, `build-compare`, `detect-capabilities`, `build-standalone`.
+
+Try two of them on any project:
+
+```
+node skills/design-research-check/scripts/detect-slop.mjs src/
+node skills/design-research-check/scripts/audit-ui.mjs --url index.html
+```
+
+`audit-ui` only audits local pages unless you pass `--allow-remote`.
 
 ## Limits
 
-This is a beta. Live runs in Claude Code are summarized in [docs/STATUS.md](docs/STATUS.md).
-- Codex: install tested, no agent run. Cursor: not tested.
-- A full run takes 15–30 minutes and several dollars of usage.
-- No measured comparison against the same agent without the skill yet.
-- Facebook reels cannot be watched by an agent: the skill asks for screenshots or a transcript.
+This is a beta.
+
+- Gallery sites often refuse automated access. How many gallery works get studied varies from run to run. The skill records refusals and never works around logins or bot checks.
+- Tested live in Claude Code. Codex: install tested only. Cursor: not tested.
+- The quick redesign time is an estimate, not yet measured in a live run.
+- There is no measured comparison yet against the same agent without the skill.
+
+## Develop
+
+```
+npm test
+```
+
+After changing anything in `skills/design-research-check/`, regenerate the standalone prompt (a test fails if it drifts):
+
+```
+node skills/design-research-check/scripts/build-standalone.mjs
+```
+
+`examples/skincare-fixture/` is a complete example run built from fixture data, not real research.
+
+## License
+
+MIT

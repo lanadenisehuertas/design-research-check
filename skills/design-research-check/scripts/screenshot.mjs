@@ -1,9 +1,13 @@
 #!/usr/bin/env node
-// Usage: node screenshot.mjs --url <url-or-file-path> --out <dir> [--widths 1440,390] [--height 900] [--name page]
+// Usage: node screenshot.mjs --url <url-or-file-path> --out <dir> [--widths 1440,390] [--height 900] [--name page] [--no-audit]
 // Captures a page at each width. Uses Playwright if installed; otherwise the system Chrome or Edge in
 // headless mode. Narrow widths are captured through an iframe of exactly that width, because headless
 // Chrome/Edge windows have a minimum width and would otherwise lay the page out wider than requested;
 // the PNG is then cropped to the requested width.
+// Local pages (file:, localhost, LAN) are also audited automatically at 1440, 768 and 390 (see lib/audit.mjs).
+// The result goes to <out>/<name>.audit.json and critical findings are printed, so defects that are easy to miss
+// by eye (low contrast, horizontal overflow, unlabeled fields) are caught at every render. --no-audit turns it off.
+// Remote pages (reference sites) are never audited.
 // Exit 0 = captured, 2 = unavailable or failed (JSON on stdout says why). Installs nothing.
 import { existsSync, mkdirSync, writeFileSync, readFileSync, rmSync } from "node:fs";
 import { execFileSync } from "node:child_process";
@@ -12,6 +16,7 @@ import { tmpdir } from "node:os";
 import { pathToFileURL } from "node:url";
 import { createRequire } from "node:module";
 import { cropPng, readPngSize } from "./lib/png.mjs";
+import { auditPage, findBrowser, isLocalUrl, isMissingModule } from "./lib/audit.mjs";
 
 const args = process.argv.slice(2);
 const opt = (n, d) => {
@@ -21,7 +26,7 @@ const opt = (n, d) => {
 let url = opt("url");
 const out = opt("out");
 if (!url || !out) {
-  console.error("usage: screenshot.mjs --url <url-or-file> --out <dir> [--widths 1440,390] [--height 900] [--name page]");
+  console.error("usage: screenshot.mjs --url <url-or-file> --out <dir> [--widths 1440,390] [--height 900] [--name page] [--no-audit]");
   process.exit(2);
 }
 if (!/^[a-z]+:\/\//i.test(url)) url = pathToFileURL(resolve(url)).href;
@@ -56,20 +61,6 @@ async function viaPlaywright() {
   return { engine: "playwright", shots };
 }
 
-function findBrowser() {
-  const candidates = process.platform === "win32"
-    ? [
-        "C:/Program Files/Google/Chrome/Application/chrome.exe",
-        "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
-        "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe",
-        "C:/Program Files/Microsoft/Edge/Application/msedge.exe",
-      ]
-    : process.platform === "darwin"
-      ? ["/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge", "/Applications/Chromium.app/Contents/MacOS/Chromium"]
-      : ["/usr/bin/google-chrome", "/usr/bin/chromium", "/usr/bin/chromium-browser", "/usr/bin/microsoft-edge"];
-  return candidates.find((p) => existsSync(p));
-}
-
 function viaSystemBrowser() {
   const bin = findBrowser();
   if (!bin) throw new Error("no Playwright and no system Chrome/Edge found");
@@ -100,15 +91,36 @@ function viaSystemBrowser() {
   return { engine: `system browser: ${bin}`, shots };
 }
 
+/** Audit local renders automatically. Never fails the capture: an audit problem is reported, not thrown. */
+async function autoAudit() {
+  if (args.includes("--no-audit") || !isLocalUrl(url)) return null;
+  const file = join(resolve(out), `${name}.audit.json`);
+  try {
+    const full = await auditPage({ url });
+    writeFileSync(file, JSON.stringify(full, null, 2));
+    const critical = full.summary
+      .filter((f) => f.severity === "critical")
+      .map(({ id, message, selector, widths: w }) => ({ id, message, selector, widths: w }));
+    return { file, counts: full.counts, passed: full.passed, critical };
+  } catch (e) {
+    return { file: null, status: "unavailable", reason: String(e.message ?? e), next: "run audit-ui.mjs by hand, or check contrast and overflow by eye and say so" };
+  }
+}
+
 try {
   let result;
   try {
     result = await viaPlaywright();
   } catch (e) {
-    if (!/Cannot find (package|module)|ERR_MODULE_NOT_FOUND/.test(String(e?.message ?? e)) && e?.code !== "ERR_MODULE_NOT_FOUND") throw e;
+    if (!isMissingModule(e)) throw e;
     result = viaSystemBrowser();
   }
-  console.log(JSON.stringify({ status: "ok", url, ...result }, null, 2));
+  const audit = await autoAudit();
+  console.log(JSON.stringify({ status: "ok", url, ...result, ...(audit ? { audit } : {}) }, null, 2));
+  if (audit?.critical?.length) {
+    console.error(`AUDIT: ${audit.critical.length} critical finding(s) in ${audit.file}. Fix them before anyone sees this render:`);
+    for (const f of audit.critical) console.error(`  - ${f.id} at ${f.widths.join("/")}px: ${f.message}${f.selector ? ` (${f.selector})` : ""}`);
+  }
 } catch (e) {
   console.log(JSON.stringify({ status: "unavailable", reason: String(e.message ?? e), next: "use the host's browser/screenshot tool, install Playwright, or ask the user for screenshots" }));
   process.exit(2);

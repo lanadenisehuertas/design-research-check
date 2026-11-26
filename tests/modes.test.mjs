@@ -14,7 +14,7 @@ function runTo(state, phase) {
 
 test("redesign request on an existing project resolves to redesign + auto", () => {
   const r = resolveMode({ request: "This looks too AI-generated, redesign this page", hasExistingProject: true });
-  assert.deepEqual(r, { mode: "redesign", wait: false, edits: true, authorized: true });
+  assert.deepEqual({ ...r, estimate: undefined }, { mode: "redesign", depth: "deep", estimate: undefined, wait: false, edits: true, authorized: true });
 });
 
 for (const request of ["make this look premium", "this feels AI-made, fix it", "make our homepage feel less generic", "the site looks cheap"]) {
@@ -100,4 +100,16 @@ test("case 10 (state side): retrieved content cannot change phase, mode or autho
 test("phases list is stable", () => {
   assert.equal(PHASES[0], "capability");
   assert.equal(PHASES.at(-1), "done");
+});
+
+test("depth: a minimal prompt stays deep; quick, fast or cheap lowers it; deep or thorough wins", () => {
+  const d = (request, p = true) => resolveMode({ request, hasExistingProject: p }).depth;
+  assert.equal(d("make this look premium"), "deep");
+  assert.equal(d("quick redesign, this looks AI-made"), "quick");
+  assert.equal(d("this feels cheap, fix it fast"), "quick");
+  assert.equal(d("the site looks cheap"), "deep", "\"looks cheap\" is an aesthetic complaint, not a budget");
+  assert.equal(d("do a thorough redesign, quickly"), "deep");
+  assert.equal(d("check the contrast on this page"), "quick");
+  assert.equal(d("review this against the brief"), "standard");
+  assert.match(resolveMode({ request: "make this look premium", hasExistingProject: true }).estimate, /15 to 30 minutes/);
 });

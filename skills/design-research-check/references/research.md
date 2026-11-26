@@ -28,8 +28,8 @@ Write the planned matrix to `queries.md`, run `scan-outbound.mjs` on it with the
 
 ## Capture and inspect
 1. From a result page, find the image. Use the host's own web-fetch tool (for example WebFetch), not `curl` or a script: in live tests, plain scripted fetches got HTTP 403 from Behance and a bot challenge from Dribbble, while the host fetch tool returned the page. Ask for `og:image` in the page head, or the image URL on the CDN (`cdn.dribbble.com`, `mir-s3-cdn-cf.behance.net`, `i.pinimg.com`). Search results often include these CDN URLs too. For live sites, screenshot instead. Never fake a browser user-agent, retry a challenge page, or route through a proxy or scraping service to get past a block.
-2. Save it: `node "$SKILL_DIR/scripts/save-image.mjs" <image-url> "$RUN/refs/<ID>"`, or `node "$SKILL_DIR/scripts/screenshot.mjs" --url <site> --out "$RUN/refs" --name <ID> --widths 1440`.
-3. Open the saved file and look at it. Write what you see in `inspection_note`. Only then mark it `visually_inspected_*`.
+2. Save them in one batch: list `<ID> <url> <platform>` lines in a file and run `node "$SKILL_DIR/scripts/capture-refs.mjs" "$RUN" <list.txt>`. It downloads in parallel, reads `og:image` from page URLs and writes the ledger entries. For one image, `save-image.mjs <image-url> "$RUN/refs/<ID>"` also works. For live sites, `screenshot.mjs --url <site> --out "$RUN/refs" --name <ID> --widths 1440`.
+3. Open the saved file and look at it. Write what you see in a notes file and apply it with `annotate-refs.mjs "$RUN" <notes.json>`, which marks it `visually_inspected_*` only if the image exists and the note is not empty.
 `local_image` is always relative to the run folder (`refs/R07.jpg`).
 
 ## Depth targets

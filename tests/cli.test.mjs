@@ -88,3 +88,15 @@ test("check-claims runs on the example spec and ledger", () => {
   const r = run("check-claims.mjs", ["--ceiling", "A", "--spec", join(FIXTURE, "design-spec.md"), "--ledger", join(FIXTURE, "references.json")]);
   assert.equal(r.code, 0, r.out);
 });
+
+test("check-run accepts every mode SKILL.md names, including audit", () => {
+  const dir = mkdtempSync(join(tmpdir(), "drc-cli-"));
+  try {
+    for (const mode of ["research", "review", "audit", "redesign"]) {
+      const r = run("check-run.mjs", [dir, "--mode", mode]);
+      assert.ok(r.code === 0 || r.code === 1, `${mode}: exit ${r.code}\n${r.out}`); // 2 would mean the mode was rejected as bad usage
+    }
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});

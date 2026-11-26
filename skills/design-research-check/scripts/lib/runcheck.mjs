@@ -3,6 +3,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { canonicalUrl, validateLedger } from "./ledger.mjs";
 import { checkSpecCitations, checkVerificationClaims } from "./claims.mjs";
+import { hasMemoryPointer, parseTokens } from "./system.mjs";
 
 export const MIN_INSPECTED = { quick: 5, standard: 10, deep: 15 };
 const SOURCES = ["pinterest", "behance", "dribbble", "cosmos"];
@@ -19,13 +20,30 @@ function images(dir, sub) {
   return readdirSync(p).filter((f) => IMG.test(f) && statSync(join(p, f)).size > 0);
 }
 
+/** Audit results in a folder: `audit.json` (from audit-ui.mjs) or `<name>.audit.json` (written by screenshot.mjs). */
+function audits(dir, sub) {
+  const p = join(dir, sub);
+  if (!existsSync(p) || !statSync(p).isDirectory()) return [];
+  return readdirSync(p).filter((f) => f === "audit.json" || f.endsWith(".audit.json")).map((f) => `${sub}/${f}`);
+}
+
+/** Critical findings in an audit file that `explained` does not mention by id. */
+function unexplainedCritical(dir, file, explained) {
+  try {
+    const a = JSON.parse(readFileSync(join(dir, file), "utf8"));
+    return (a.summary || []).filter((x) => x.severity === "critical" && !(explained ?? "").includes(x.id));
+  } catch {
+    return [{ id: "invalid-json", message: `${file} is not valid JSON` }];
+  }
+}
+
 /** Unfilled template markers left in a file mean the phase was skipped. */
 function stillTemplate(text) {
   return /\[assumed\|stated\] \.\.\.|\| P1 \| \| \| \||\| 1 \| pinterest \| mood\/composition \| \| \| \||- \*\*D1\*\*\s+\[refs: \]|### Direction A:\s*\n### Direction B:/.test(text);
 }
 
 /**
- * @param {{dir: string, mode: "research"|"review"|"redesign", depth?: string, noRender?: boolean}} o
+ * @param {{dir: string, mode: "research"|"review"|"audit"|"redesign", depth?: string, noRender?: boolean}} o
  * @returns {{errors: string[], warnings: string[]}}
  */
 export function checkRun({ dir, mode, depth = "deep", noRender = false }) {
@@ -37,6 +55,19 @@ export function checkRun({ dir, mode, depth = "deep", noRender = false }) {
     else if (stillTemplate(t)) errors.push(`${f} is still the unfilled template`);
     return t;
   };
+
+  // audit: fast path with no web research. Needs the rendered baseline, both scans and a written report.
+  if (mode === "audit") {
+    const report = need("report.md");
+    if (report && report.trim().length < 400) errors.push("report.md is too short to be a report");
+    if (!existsSync(join(dir, "baseline/slop.json"))) errors.push("missing baseline/slop.json");
+    if (audits(dir, "baseline").length === 0) errors.push(noRender ? "missing baseline/audit.json (rendering was impossible; say so in report.md)" : "missing baseline/audit.json (screenshot.mjs writes one automatically for local pages)");
+    if (!noRender && images(dir, "baseline").length === 0) errors.push("baseline/ has no screenshots");
+    if (existsSync(join(dir, "..", "..", "design-system.md")) && !existsSync(join(dir, "baseline/system.json"))) {
+      warnings.push("the project has a design-system.md but no baseline/system.json: run check-system.mjs to report drift");
+    }
+    return { errors, warnings };
+  }
 
   // Brief with an assumptions block.
   const brief = need("brief.md");
@@ -100,6 +131,19 @@ export function checkRun({ dir, mode, depth = "deep", noRender = false }) {
     if (!noRender) {
       const shots = [...images(dir, "proposals"), ...images(dir, "final")].filter((f) => !/^final-|^after-/i.test(f));
       if (shots.length < props.length * 2) errors.push(`${shots.length} proposal renders found; need desktop and mobile for each proposal (or pass --no-render and disclose it)`);
+      // Every proposal is audited before anyone sees it: eyeballing renders missed 1.07:1 text and 463px of overflow.
+      const synthesisText = read(dir, "synthesis.md");
+      for (const p of props) {
+        const base = p.replace(/\.html$/, "");
+        const file = `proposals/${base}.audit.json`;
+        if (!existsSync(join(dir, file))) {
+          errors.push(`missing ${file} (screenshot.mjs --name ${base} writes it; or run audit-ui.mjs --url proposals/${p} --out "$RUN/${file}")`);
+          continue;
+        }
+        for (const f of unexplainedCritical(dir, file, synthesisText)) {
+          errors.push(`proposal ${base} has a critical "${f.id}" finding (${f.message}); fix the proposal, or explain it by id in synthesis.md`);
+        }
+      }
     }
   }
 
@@ -125,6 +169,38 @@ export function checkRun({ dir, mode, depth = "deep", noRender = false }) {
         if (b.weighted > 0 && f.weighted >= b.weighted) warnings.push(`AI-tell score did not drop (${b.weighted} before, ${f.weighted} after); explain each remaining tell in verification.md`);
       } catch {
         warnings.push("baseline/slop.json or final/slop.json is not valid JSON");
+      }
+    }
+    // Render-based UI audit: critical findings (contrast, overflow, labels, alt text, zoom) must be fixed or explained.
+    const finalAudits = audits(dir, "final");
+    if (finalAudits.length === 0) {
+      if (!noRender) errors.push("missing final/audit.json (screenshot.mjs writes final/<name>.audit.json for local pages, or run audit-ui.mjs)");
+    } else {
+      for (const file of finalAudits) {
+        for (const f of unexplainedCritical(dir, file, ver)) errors.push(`${file} has a critical "${f.id}" finding (${f.message}); fix it or explain it in verification.md`);
+      }
+    }
+    // Memory: the persisted design system, its tokens, a pointer agents load, and no drift in the result.
+    const root = join(dir, "..", "..");
+    const system = read(root, "design-system.md");
+    if (system === null) errors.push("missing design-system.md in the project root (the rules later pages must follow)");
+    else {
+      try {
+        const t = parseTokens(system);
+        if (t.colors.size < 3 || t.fonts.size < 1) errors.push(`design-system.md tokens block declares ${t.colors.size} colors and ${t.fonts.size} fonts; fill in the real values`);
+      } catch (e) {
+        errors.push(e.message);
+      }
+      if (!hasMemoryPointer(root)) errors.push("no design-system pointer in CLAUDE.md or AGENTS.md (run remember.mjs <project-root>)");
+      const drift = read(dir, "final/system.json");
+      if (drift === null) errors.push("missing final/system.json (run check-system.mjs design-system.md <source folders> --out \"$RUN/final/system.json\")");
+      else {
+        try {
+          const d = JSON.parse(drift);
+          if (d.drift?.length) errors.push(`final/system.json: ${d.drift.length} uses of colors or fonts outside the tokens (first: ${d.drift[0].file}:${d.drift[0].line} ${d.drift[0].value}); use a token or add the value to design-system.md`);
+        } catch {
+          errors.push("final/system.json is not valid JSON");
+        }
       }
     }
     if (!noRender && !existsSync(slopPath("compare.html"))) warnings.push("no compare.html (run build-compare.mjs)");

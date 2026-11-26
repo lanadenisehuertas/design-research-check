@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const ORDER = [
-  "modes", "capabilities", "brief", "baseline", "research", "ledger", "elements",
+  "modes", "capabilities", "brief", "baseline", "product-patterns", "research", "fanout", "ledger", "elements",
   "synthesis", "proposals", "implement", "verify", "providers", "fallbacks", "final-response",
 ];
 
